@@ -103,6 +103,69 @@ pair<bool, int> algoritmoZ(string transmision, string mcode) {
     }
 }
 
+/*
+* Función AgregarGato()
+* Descripción: Agrega un caracter especial a la cadena
+* Parámetros: string, cadena de texto
+* Regresa: string, cadena de texto con caracter especial
+*/
+
+string AgregarGato(string s) {
+    string nueva = "#";
+    for (int i = 0; i < s.size(); i++) {
+        nueva += s[i];
+        nueva += "#";
+    }
+    return nueva;
+}
+
+
+/*
+ * Función Manacher()
+ * Descripción: Encuentra el palíndromo más largo en una cadena
+ * Parámetros: string, cadena de texto
+ * Regresa: int, posición inicial del palíndromo
+ *          int, posición final del palíndromo
+ */
+
+pair<int, int> Manacher(string s) {
+    string t = AgregarGato(s);
+    int n = t.size();
+    vector<int> arregloP(n, 0);
+    int centro, bordeDerecho, prima = 0;
+    int maximo = 1;
+    int posicionCentrada = 1; 
+
+    for(int i = 1; i < n - 1; i++) {
+
+        if(i < bordeDerecho) {
+            prima = 2 * centro - i;
+            arregloP[i] = min(bordeDerecho - i, arregloP[prima]);
+        }
+
+        while(i + arregloP[i] + 1 < n && i - arregloP[i] - 1 >= 0 && 
+              t[i + arregloP[i] + 1] == t[i - arregloP[i] - 1]) {
+
+            arregloP[i]++;
+
+        }
+
+        if(arregloP[i] > maximo) {
+            maximo = arregloP[i];
+            posicionCentrada = i;
+        }
+
+        if(i + arregloP[i] > bordeDerecho) {
+            centro = i;
+            bordeDerecho = i + arregloP[i];
+        }
+
+    }
+
+    return make_pair((posicionCentrada - maximo) / 2, (posicionCentrada + maximo) / 2);
+}
+    
+
 
 int main(){
 
