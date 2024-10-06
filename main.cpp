@@ -164,6 +164,40 @@ pair<int, int> Manacher(string s) {
 
     return make_pair((posicionCentrada - maximo) / 2 + 1, (posicionCentrada + maximo) / 2);
 }
+
+/*
+* Función: lcs()
+* Descripción: Encuentra la subcadena más larga común entre dos cadenas
+* Parámetros: string, cadena de texto a
+*    string, cadena de texto b
+* Regresa: pair<int, int>, posición inicial y final de la subcadena
+*/
+pair<int, int> lcs(string a, string b) {
+    int n = a.size();
+    int m = b.size();
+
+    vector<vector<int>> M(n + 1, vector<int>(m + 1, 0));
+
+    int maximo = 0;
+    int posicion = 0;
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+
+            if (a[i - 1] == b[j - 1]) {
+
+                M[i][j] = 1 + M[i - 1][j - 1];
+                if (M[i][j] > maximo) {
+                    maximo = M[i][j];
+                    posicion = i;
+                }
+            } else {
+                M[i][j] = 0;
+            }
+        }
+    }
+    return make_pair(posicion - maximo, posicion);
+}
     
 
 
@@ -179,12 +213,6 @@ int main(){
     auto result1 = algoritmoZ(cadena1, patron1);
     auto result2 = algoritmoZ(cadena2, patron2);
     auto result3 = algoritmoZ(cadena3, patron3);
-
-    pair<int, int> result4 = Manacher(cadena1);
-    pair<int, int> result5 = Manacher(cadena3);
-
-    cout << "Manacher: " << to_string(result4.first) << " " << to_string(result4.second) << endl;
-    cout << "Manacher: " << to_string(result5.first) << " " << to_string(result5.second) << endl;
 
     if (result1.first == true) {
         cout << "true " << to_string(result1.second) << endl;
@@ -203,6 +231,20 @@ int main(){
     } else {
         cout << "false" << endl;
     }
+
+
+    pair<int, int> result4 = Manacher(cadena1);
+    pair<int, int> result5 = Manacher(cadena3);
+
+    cout << "Manacher: " << to_string(result4.first) << " " << to_string(result4.second) << endl;
+    cout << "Manacher: " << to_string(result5.first) << " " << to_string(result5.second) << endl;
+
+
+    pair<int, int> result6 = lcs(cadena1, cadena2);
+    pair<int, int> result7 = lcs(cadena2, cadena3);
+
+    cout << "LCS: " << to_string(result6.first) << " " << to_string(result6.second) << endl;
+    cout << "LCS: " << to_string(result7.first) << " " << to_string(result7.second) << endl;
 
     return 0;
 }
