@@ -162,7 +162,7 @@ pair<int, int> Manacher(string s) {
 
     }
 
-    return make_pair((posicionCentrada - maximo) / 2, (posicionCentrada + maximo) / 2);
+    return make_pair((posicionCentrada - maximo) / 2 + 1, (posicionCentrada + maximo) / 2);
 }
     
 
@@ -179,6 +179,12 @@ int main(){
     auto result1 = algoritmoZ(cadena1, patron1);
     auto result2 = algoritmoZ(cadena2, patron2);
     auto result3 = algoritmoZ(cadena3, patron3);
+
+    pair<int, int> result4 = Manacher(cadena1);
+    pair<int, int> result5 = Manacher(cadena3);
+
+    cout << "Manacher: " << to_string(result4.first) << " " << to_string(result4.second) << endl;
+    cout << "Manacher: " << to_string(result5.first) << " " << to_string(result5.second) << endl;
 
     if (result1.first == true) {
         cout << "true " << to_string(result1.second) << endl;
