@@ -1,10 +1,26 @@
+/*
+* Autores: 
+*   Andrea Medina, 
+*   Diego Lira
+*   Imanol Muñiz
+* Fecha: 05.10.2024
+* Descripción: Programa que recibe distintas transmisiones de texto y busca patrones maliciosos
+*     dentro de ellas.
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
-
+/*
+* Función: readFile()
+* Descripción: Lee un archivo y regresa su contenido
+* Parámetro: string, nombre del archivo a leer
+* Regresa: string, contenido del archivo
+*/
 string readFile(string filename) {
     ifstream archivo(filename);
     if(!archivo.is_open()) {
@@ -14,38 +30,77 @@ string readFile(string filename) {
     string contenido((istreambuf_iterator<char>(archivo)), istreambuf_iterator<char>());
     archivo.close();
     return contenido;
+};
+
+/*
+* Función: matrizZ()
+* Descripción: Crea la matriz Z para el algoritmo de Z
+* Parámetros: int, tamaño de la cadena
+*    string, cadena de texto concatenada
+* Regresa: vector<int>, matriz Z
+*/
+vector<int> matrizZ(int n, string s) {
+    vector<int> z(n, 0);
+
+    // Límites de ventana de coincidencia
+    int left = 0;
+    int right = 0; 
+    int k;
+
+    for (int i = 1; i < n; i++) {
+        // Si no ha habido coincidencia
+        if (i > right) {
+            left = right = i;   // Ambos límites avanzan hacia posición actual
+
+            while (right < n && s[right - left] == s[right]) {
+                // La ventana de coincidencia se extiende a la derecha
+                right++;    
+            }
+            z[i] = right - left;
+            // Establece la ventana de coincidencia 
+                // Si no hay, left y right serán iguales
+            right--;
+
+        } else {
+            k = i - left;  // Número de coincidencias que lleva
+            if (z[k] < right - i + 1) {
+                // Copia el valor que ya se conocía
+                z[i] = z[k];
+
+            // Termina el arreglo    
+            } else {
+                left = i;
+                while (right < n && s[right - left] == s[right]) {
+                    right++;
+                }
+                z[i] = right - left;
+                right--;
+            }
+        }
+    }
+
+    return z;
 }
 
-//Funcion para regresar dos valores
-pair<bool, int> algoritmoZ(string transmicion, string mcode) {
+/*
+* Función: AlgoritmoZ() 
+* Descripción: Para encontrar si un patrón existe en una cadena y en qué posición
+* Parámetros: string, cadena de texto de transmision
+*    string, patron a buscar
+* Regresa: pair<bool, int>, si el patrón existe y en qué posición
+*/
+pair<bool, int> algoritmoZ(string transmision, string mcode) {
     
-    string s = mcode + "$" + transmicion;
+    string s = mcode + "$" + transmision;
     int n = s.size();
-    int z[n];
-    z[0] = 0;
-    int j = 1;
-    bool continuar = true;
-    for (int i = 1; i <= n; i++)
-    {
-        if(s[0] == s[i]){
 
-            z[i] = 1;
-            j = 1;
-            while(continuar){
-                if(s[0+j] == s[i+j]){
-                    z[i]++;
-                    j++;
-                }else{
-                    continuar = false;
-                    if(z[i] == mcode.size()){
-                        return make_pair(true, i);
-                    }
-                }
-            }
-            continuar = true;
-        }   
+    vector<int> z = matrizZ(n, s);
+
+    for (int i = 0; i < n; i++) {
+        if (z[i] == mcode.size()) {
+            return make_pair(true, i);
+        }
     }
-    return make_pair(false, 0);
 }
 
 
@@ -58,10 +113,27 @@ int main(){
     string patron2 = readFile("patron2.txt");
     string patron3 = readFile("patron3.txt");
 
+    auto result1 = algoritmoZ(cadena1, patron1);
+    auto result2 = algoritmoZ(cadena2, patron2);
+    auto result3 = algoritmoZ(cadena3, patron3);
 
-    cout << (algoritmoZ(cadena3, patron3).first ? "Si se encontro el patron en la cadena, en la posicion:" + to_string(algoritmoZ(cadena3, patron3).second) : "No se encontro el patron en la cadena\n");
+    if (result1.first == true) {
+        cout << "true " << to_string(result1.second) << endl;
+    } else {
+        cout << "false" << endl;
+    }
 
+    if (result2.first == true) {
+        cout << "true " << to_string(result2.second) << endl;
+    } else {
+        cout << "false" << endl;
+    }
 
+    if (result3.first == true) {
+        cout << "true " << to_string(result3.second) << endl;
+    } else {
+        cout << "false" << endl;
+    }
 
     return 0;
 }
