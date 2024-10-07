@@ -1,0 +1,15 @@
+Autores: 
+  Andrea Medina Rico A01705541
+  Diego Lira A01710369
+  Imanol Muñiz A01701713
+Fecha: 05.10.2024
+
+
+Imanol:
+ -Parte 1, Algoritmo Z
+
+ Diego:
+ -Parte 2, Algoritmo Manacher
+
+ Andrea:
+ -Parte 3, Algoritmo LCS

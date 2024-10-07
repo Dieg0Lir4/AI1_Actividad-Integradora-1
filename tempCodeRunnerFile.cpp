@@ -1,26 +1,3 @@
-/*
-* Autores: 
-*   Andrea Medina, 
-*   Diego Lira
-*   Imanol Muñiz
-* Fecha: 05.10.2024
-* Descripción: Programa que recibe distintas transmisiones de texto y busca patrones maliciosos
-*     dentro de ellas.
-*/
-
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-
-using namespace std;
-
-/*
-* Función: readFile()
-* Descripción: Lee un archivo y regresa su contenido
-* Parámetro: string, nombre del archivo a leer
-* Regresa: string, contenido del archivo
-*/
 string readFile(string filename) {
     ifstream archivo(filename);
     if(!archivo.is_open()) {
@@ -178,7 +155,7 @@ pair<int, int> lcs(string a, string b) {
     int n = a.size();
     int m = b.size();
 
-    vector<vector<int> > M(n + 1, vector<int>(m + 1, 0));
+    vector<vector<int>> M(n + 1, vector<int>(m + 1, 0));
 
     int maximo = 0;
     int posicion = 0;
@@ -273,6 +250,3 @@ int main(){
     cout << "PARTE 3: \n \n";
 
     cout << "LCS: " << to_string(p3_result1.first) << " " << to_string(p3_result1.second) << endl;
-
-    return 0;
-}
