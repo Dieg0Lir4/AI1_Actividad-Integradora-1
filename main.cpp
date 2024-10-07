@@ -27,7 +27,11 @@ string readFile(string filename) {
         cout << "No se pudo abrir el archivo" << endl;
         exit(1);
     }
-    string contenido((istreambuf_iterator<char>(archivo)), istreambuf_iterator<char>());
+    string contenido;
+    string linea;
+    while (getline(archivo, linea)) {
+        contenido += linea; // Agregar la línea sin el salto de línea
+    }
     archivo.close();
     return contenido;
 }
