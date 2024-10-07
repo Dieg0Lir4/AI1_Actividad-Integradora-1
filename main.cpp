@@ -30,7 +30,7 @@ string readFile(string filename) {
     string contenido((istreambuf_iterator<char>(archivo)), istreambuf_iterator<char>());
     archivo.close();
     return contenido;
-};
+}
 
 /*
 * Función: matrizZ()
@@ -101,6 +101,8 @@ pair<bool, int> algoritmoZ(string transmision, string mcode) {
             return make_pair(true, i);
         }
     }
+
+    return make_pair(false, 0);
 }
 
 /*
@@ -202,49 +204,75 @@ pair<int, int> lcs(string a, string b) {
 
 
 int main(){
+    // Lectura de archivos
+    string mcode01 = readFile("mcode01.txt");
+    string mcode02 = readFile("mcode02.txt");
+    string mcode03 = readFile("mcode03.txt");
+    string transmission01 = readFile("transmission01.txt");
+    string transmission02 = readFile("transmission02.txt");
 
-    string cadena1 = readFile("cadena1.txt");
-    string cadena2 = readFile("cadena2.txt");
-    string cadena3 = readFile("cadena3.txt");
-    string patron1 = readFile("patron1.txt");
-    string patron2 = readFile("patron2.txt");
-    string patron3 = readFile("patron3.txt");
+    // Pruebas para Parte 1
+    auto p1_result1 = algoritmoZ(transmission01, mcode01);
+    auto p1_result2 = algoritmoZ(transmission01, mcode02);
+    auto p1_result3 = algoritmoZ(transmission01, mcode03);
+    auto p1_result4 = algoritmoZ(transmission02, mcode01);
+    auto p1_result5 = algoritmoZ(transmission02, mcode02);
+    auto p1_result6 = algoritmoZ(transmission02, mcode03);
 
-    auto result1 = algoritmoZ(cadena1, patron1);
-    auto result2 = algoritmoZ(cadena2, patron2);
-    auto result3 = algoritmoZ(cadena3, patron3);
+    cout << "PARTE 1: \n \n";
 
-    if (result1.first == true) {
-        cout << "true " << to_string(result1.second) << endl;
+    if (p1_result1.first == true) {
+        cout << "true " << to_string(p1_result1.second) << endl;
     } else {
         cout << "false" << endl;
     }
 
-    if (result2.first == true) {
-        cout << "true " << to_string(result2.second) << endl;
+    if (p1_result2.first == true) {
+        cout << "true " << to_string(p1_result2.second) << endl;
     } else {
         cout << "false" << endl;
     }
 
-    if (result3.first == true) {
-        cout << "true " << to_string(result3.second) << endl;
+    if (p1_result3.first == true) {
+        cout << "true " << to_string(p1_result3.second) << endl;
+    } else {
+        cout << "false" << endl;
+    }
+
+    if (p1_result4.first == true) {
+        cout << "true " << to_string(p1_result4.second) << endl;
+    } else {
+        cout << "false" << endl;
+    }
+
+    if (p1_result5.first == true) {
+        cout << "true " << to_string(p1_result5.second) << endl;
+    } else {
+        cout << "false" << endl;
+    }
+
+    if (p1_result6.first == true) {
+        cout << "true " << to_string(p1_result6.second) << endl;
     } else {
         cout << "false" << endl;
     }
 
 
-    pair<int, int> result4 = Manacher(cadena1);
-    pair<int, int> result5 = Manacher(cadena3);
+    // Pruebas para Parte 2
+    pair<int, int> p2_result1 = Manacher(transmission01);
+    pair<int, int> p2_result2 = Manacher(transmission02);
 
-    cout << "Manacher: " << to_string(result4.first) << " " << to_string(result4.second) << endl;
-    cout << "Manacher: " << to_string(result5.first) << " " << to_string(result5.second) << endl;
+    cout << "\nPARTE 2: \n \n";
+
+    cout << "Transmission01: " << endl << to_string(p2_result1.first) << " " << to_string(p2_result1.second) << endl << endl;
+    cout << "Transimssion02: " << endl << to_string(p2_result2.first) << " " << to_string(p2_result2.second) << endl << endl;
 
 
-    pair<int, int> result6 = lcs(cadena1, cadena2);
-    pair<int, int> result7 = lcs(cadena2, cadena3);
+    // Pruebas para Parte 3
+    pair<int, int> p3_result1 = lcs(transmission01, transmission02);
+    cout << "PARTE 3: \n \n";
 
-    cout << "LCS: " << to_string(result6.first) << " " << to_string(result6.second) << endl;
-    cout << "LCS: " << to_string(result7.first) << " " << to_string(result7.second) << endl;
+    cout << "LCS: " << to_string(p3_result1.first) << " " << to_string(p3_result1.second) << endl;
 
     return 0;
 }
